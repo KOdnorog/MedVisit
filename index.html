@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Онлайн-запись к врачу: видеоконсультации, терапевты и узкие специалисты. Выберите время и получите ссылку на визит."
+    />
+    <title>МедВизит — онлайн-запись к врачу</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;1,8..60,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#booking">Перейти к записи</a>
+
+    <header class="header">
+      <div class="container header__inner">
+        <a class="logo" href="#">
+          <span class="logo__mark" aria-hidden="true"></span>
+          МедВизит
+        </a>
+        <nav class="nav" aria-label="Основная навигация">
+          <a href="#how">Как это работает</a>
+          <a href="#specialists">Специалисты</a>
+          <a href="#faq">Вопросы</a>
+          <a class="btn btn--ghost btn--sm" href="#booking">Записаться</a>
+        </nav>
+        <button
+          type="button"
+          class="nav-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Открыть меню"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div id="mobile-nav" class="mobile-nav" hidden>
+        <nav class="container mobile-nav__links" aria-label="Мобильное меню">
+          <a href="#how">Как это работает</a>
+          <a href="#specialists">Специалисты</a>
+          <a href="#faq">Вопросы</a>
+          <a class="btn btn--primary" href="#booking">Записаться онлайн</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero__grid">
+          <div class="hero__content">
+            <p class="eyebrow">Видеоконсультация • Москва и МО</p>
+            <h1 class="hero__title">Онлайн-визит к врачу без очередей и звонков в регистратуру</h1>
+            <p class="hero__lead">
+              Выберите специалиста, удобное окно и получите ссылку на видеовстречу. Подходит для
+              первичных консультаций, разбора анализов и наблюдения по хроническим состояниям.
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--primary btn--lg" href="#booking">Записаться на приём</a>
+              <a class="btn btn--outline btn--lg" href="#specialists">Посмотреть врачей</a>
+            </div>
+            <ul class="hero__stats" role="list">
+              <li><strong>Сегодня</strong><span>47 свободных слотов</span></li>
+              <li><strong>24/7</strong><span>поддержка пациентов</span></li>
+              <li><strong>15 мин</strong><span>средняя длительность</span></li>
+            </ul>
+          </div>
+          <div class="hero__card" aria-hidden="true">
+            <div class="hero-card">
+              <p class="hero-card__label">Ближайший слот</p>
+              <p class="hero-card__time">Сегодня, 16:40</p>
+              <p class="hero-card__doc">Др. Соколова · Терапевт</p>
+              <div class="hero-card__pills">
+                <span>Видео</span>
+                <span>По полису ОМС*</span>
+              </div>
+            </div>
+            <p class="hero__footnote">* Уточняйте у вашей страховой компании.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="how" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">Как проходит запись</h2>
+          <p class="section__subtitle">
+            Три шага — и вы на связи с врачом. Всё в браузере или в приложении, без установки
+            сложных программ.
+          </p>
+          <ol class="steps" role="list">
+            <li class="step">
+              <span class="step__num">1</span>
+              <h3 class="step__title">Выбор специалиста</h3>
+              <p class="step__text">
+                Фильтруйте по профилю и языку консультации. Карточка врача показывает опыт и
+                направления.
+              </p>
+            </li>
+            <li class="step">
+              <span class="step__num">2</span>
+              <h3 class="step__title">Дата и время</h3>
+              <p class="step__text">
+                Слоты обновляются в реальном времени. Можно перенести визит до его начала.
+              </p>
+            </li>
+            <li class="step">
+              <span class="step__num">3</span>
+              <h3 class="step__title">Ссылка на встречу</h3>
+              <p class="step__text">
+                После подтверждения придёт SMS и письмо с защищённой комнатой для видео.
+              </p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="specialists" class="section">
+        <div class="container">
+          <h2 class="section__title">Специалисты онлайн</h2>
+          <p class="section__subtitle">
+            Команда с опытом в телемедицине. Демо-персоны для макета — замените на реальных врачей и
+            лицензии клиники.
+          </p>
+          <div class="cards">
+            <article class="card doctor" data-specialty="therapy">
+              <div class="doctor__avatar" style="--hue: 168">АС</div>
+              <h3 class="doctor__name">Анна Соколова</h3>
+              <p class="doctor__role">Терапевт, 12 лет стажа</p>
+              <p class="doctor__bio">
+                Первичный приём, ОРВИ, разбор анализов, рекомендации по образу жизни и вакцинации.
+              </p>
+              <p class="doctor__meta">Следующий слот: <span>сегодня 16:40</span></p>
+              <button type="button" class="btn btn--secondary btn--block js-pick-doctor" data-id="sokolova">
+                Записаться к Анне
+              </button>
+            </article>
+            <article class="card doctor" data-specialty="cardio">
+              <div class="doctor__avatar" style="--hue: 212">МЛ</div>
+              <h3 class="doctor__name">Михаил Лебедев</h3>
+              <p class="doctor__role">Кардиолог</p>
+              <p class="doctor__bio">
+                Контроль АД, ЭКГ дистанционно, коррекия терапии после обследований в стационаре.
+              </p>
+              <p class="doctor__meta">Следующий слот: <span>завтра 09:15</span></p>
+              <button type="button" class="btn btn--secondary btn--block js-pick-doctor" data-id="lebedev">
+                Записаться к Михаилу
+              </button>
+            </article>
+            <article class="card doctor" data-specialty="psych">
+              <div class="doctor__avatar" style="--hue: 280">ЕН</div>
+              <h3 class="doctor__name">Елена Новикова</h3>
+              <p class="doctor__role">Психотерапевт</p>
+              <p class="doctor__bio">
+                Тревожные и депрессивные состояния, выгорание, краткосрочная поддержка в кризисах.
+              </p>
+              <p class="doctor__meta">Следующий слот: <span>сегодня 19:00</span></p>
+              <button type="button" class="btn btn--secondary btn--block js-pick-doctor" data-id="novikova">
+                Записаться к Елене
+              </button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="booking" class="section section--booking">
+        <div class="container booking">
+          <div class="booking__intro">
+            <h2 class="section__title section__title--left">Онлайн-запись</h2>
+            <p class="section__subtitle section__subtitle--left">
+              Заполните форму — мы покажем демо-подтверждение. Подключите backend для реальных слотов и
+              платежей.
+            </p>
+            <div class="booking-trust" role="note">
+              <svg class="booking-trust__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              <p>Данные передаются по шифрованному каналу. Запись на макет не сохраняется на сервере.</p>
+            </div>
+          </div>
+
+          <div class="booking__panel">
+            <form id="booking-form" class="booking-form" novalidate>
+              <div class="form-progress" aria-hidden="true">
+                <span class="form-progress__bar"><span class="form-progress__fill" id="progress-fill"></span></span>
+                <span class="form-progress__text" id="progress-label">Шаг 1 из 4</span>
+              </div>
+
+              <fieldset class="form-step is-active" data-step="1">
+                <legend class="visually-hidden">Шаг 1: специализация</legend>
+                <h3 class="form-step__title">Кто вам нужен?</h3>
+                <div class="field-grid">
+                  <label class="choice">
+                    <input type="radio" name="specialty" value="therapy" checked />
+                    <span class="choice__box">
+                      <strong>Терапевт</strong>
+                      <small>ОРВИ, анализы, общие вопросы</small>
+                    </span>
+                  </label>
+                  <label class="choice">
+                    <input type="radio" name="specialty" value="cardio" />
+                    <span class="choice__box">
+                      <strong>Кардиолог</strong>
+                      <small>Давление, сердце, ЭКГ</small>
+                    </span>
+                  </label>
+                  <label class="choice">
+                    <input type="radio" name="specialty" value="psych" />
+                    <span class="choice__box">
+                      <strong>Психотерапевт</strong>
+                      <small>Настроение, стресс, сон</small>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-step" data-step="2">
+                <legend class="visually-hidden">Шаг 2: врач</legend>
+                <h3 class="form-step__title">Выберите врача</h3>
+                <div class="field field--select">
+                  <label for="doctor">Врач</label>
+                  <select id="doctor" name="doctor" required>
+                    <option value="">— Сначала выберите специализацию —</option>
+                  </select>
+                  <p class="field__hint" id="doctor-hint">Список подстроится под выбранный профиль.</p>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-step" data-step="3">
+                <legend class="visually-hidden">Шаг 3: дата и время</legend>
+                <h3 class="form-step__title">Дата и время</h3>
+                <div class="datetime-row">
+                  <div class="field">
+                    <label for="date">Дата</label>
+                    <input type="date" id="date" name="date" required />
+                  </div>
+                  <div class="field">
+                    <span id="slot-label" class="field-label">Свободные слоты</span>
+                    <div class="slots" id="slots" role="group" aria-labelledby="slot-label"></div>
+                    <input type="hidden" name="time" id="time" />
+                    <p class="field__error" id="slot-error" hidden>Выберите время приёма.</p>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="form-step" data-step="4">
+                <legend class="visually-hidden">Шаг 4: контакты</legend>
+                <h3 class="form-step__title">Контакты</h3>
+                <div class="field">
+                  <label for="name">Имя и фамилия</label>
+                  <input type="text" id="name" name="name" autocomplete="name" placeholder="Например, Иван Сергеев" required />
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="+7 …" required />
+                  </div>
+                  <div class="field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" required />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="comment">Комментарий врачу <span class="optional">необязательно</span></label>
+                  <textarea id="comment" name="comment" rows="3" placeholder="Симптомы, цель визита, что важно учесть"></textarea>
+                </div>
+                <label class="check">
+                  <input type="checkbox" name="agree" id="agree" required />
+                  <span>Согласен(на) на обработку персональных данных и правила телемедицины</span>
+                </label>
+              </fieldset>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn--ghost" id="btn-back" hidden>Назад</button>
+                <button type="button" class="btn btn--primary" id="btn-next">Далее</button>
+                <button type="submit" class="btn btn--primary" id="btn-submit" hidden>Подтвердить запись</button>
+              </div>
+            </form>
+
+            <div id="success" class="success-panel" hidden role="status" aria-live="polite">
+              <div class="success-panel__icon" aria-hidden="true">✓</div>
+              <h3 class="success-panel__title">Запись создана (демо)</h3>
+              <p class="success-panel__text" id="success-summary"></p>
+              <p class="success-panel__note">
+                На почту и телефон пришла бы ссылка на видеокомнату. Добавьте API бронирования,
+                чтобы шаг стал боевым.
+              </p>
+              <button type="button" class="btn btn--secondary" id="btn-new-booking">Новая запись</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section section--alt">
+        <div class="container">
+          <h2 class="section__title">Частые вопросы</h2>
+          <div class="faq">
+            <details class="faq__item">
+              <summary>Нужна ли камера и микрофон?</summary>
+              <p>Да, для видеовстречи. Если связь прервётся, врач перезвонит по телефону из заявки.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Можно ли отменить или перенести?</summary>
+              <p>До начала слота — без ограничений в личном кабинете. Менее чем за 2 часа лучше позвонить в поддержку.</p>
+            </details>
+            <details class="faq__item">
+              <summary>Что если нужен очный приём?</summary>
+              <p>После онлайн-осмотра врач при необходимости выпишет направление в клинику-партнёр.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="footer__brand">
+          <span class="logo logo--footer">
+            <span class="logo__mark" aria-hidden="true"></span>
+            МедВизит
+          </span>
+          <p>Телемедицина для макета. Лицензии и реквизиты — подставьте свои.</p>
+        </div>
+        <div class="footer__cols">
+          <div>
+            <p class="footer__heading">Контакты</p>
+            <p>+7 (495) 000-00-00</p>
+            <p><a href="mailto:hello@medvisit.demo">hello@medvisit.demo</a></p>
+          </div>
+          <div>
+            <p class="footer__heading">Документы</p>
+            <p><a href="#">Политика конфиденциальности</a></p>
+            <p><a href="#">Согласие на обработку ПДн</a></p>
+          </div>
+        </div>
+      </div>
+      <p class="footer__legal">© 2026 МедВизит · Учебный макет</p>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
