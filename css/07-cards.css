@@ -1,0 +1,74 @@
+/* Cards / doctors */
+.cards {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 720px) {
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.35rem;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow);
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--border));
+}
+
+.doctor__avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--hue, 168), 45%, 38%),
+    hsl(var(--hue, 168), 50%, 28%)
+  );
+  margin-bottom: 1rem;
+}
+
+.doctor__name {
+  margin: 0 0 0.2rem;
+  font-size: 1.1rem;
+}
+
+.doctor__role {
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.doctor__bio {
+  margin: 0 0 auto;
+  padding-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.doctor__meta {
+  margin: 0 0 1rem;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+.doctor__meta span {
+  color: var(--ink);
+  font-weight: 600;
+}

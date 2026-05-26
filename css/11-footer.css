@@ -1,0 +1,63 @@
+/* Footer */
+.footer {
+  background: var(--ink);
+  color: color-mix(in srgb, #fff 88%, var(--ink));
+  padding: 2.5rem 0 var(--space);
+  margin-top: 2rem;
+}
+
+.footer a {
+  color: color-mix(in srgb, #fff 92%, var(--accent));
+}
+
+.footer__inner {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 720px) {
+  .footer__inner {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+.footer__brand p {
+  margin: 0.5rem 0 0;
+  max-width: 36ch;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, #fff 65%, var(--ink));
+}
+
+.footer__cols {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 480px) {
+  .footer__cols {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.footer__heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 0.65rem;
+  color: color-mix(in srgb, #fff 55%, var(--ink));
+}
+
+.footer__cols p {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+}
+
+.footer__legal {
+  margin: 2rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid color-mix(in srgb, #fff 12%, var(--ink));
+  text-align: center;
+  font-size: 0.75rem;
+  color: color-mix(in srgb, #fff 45%, var(--ink));
+}

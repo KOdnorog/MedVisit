@@ -1,0 +1,120 @@
+/* Hero */
+.hero {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3rem, 7vw, 5rem);
+}
+
+.hero__grid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .hero__grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3rem;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero__title {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 2.85rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.hero__lead {
+  margin: 0 0 1.5rem;
+  font-size: 1.0625rem;
+  color: var(--ink-muted);
+  max-width: 38ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.hero__stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+.hero__stats strong {
+  display: block;
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+
+.hero__stats span {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.hero__card {
+  position: relative;
+}
+
+.hero-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.hero-card__label {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+.hero-card__time {
+  margin: 0.35rem 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-card__doc {
+  margin: 0 0 1rem;
+  color: var(--ink-muted);
+}
+
+.hero-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hero-card__pills span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
+.hero__footnote {
+  margin: 0.75rem 0 0;
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
