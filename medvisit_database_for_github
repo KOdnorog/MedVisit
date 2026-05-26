@@ -1,0 +1,726 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.6
+-- Dumped by pg_dump version 17.5
+
+-- Started on 2026-05-26 19:38:04 MSK
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 230 (class 1259 OID 41085)
+-- Name: appointment_status_history; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.appointment_status_history (
+    id integer NOT NULL,
+    id_appointment integer NOT NULL,
+    id_user integer NOT NULL,
+    old_status character varying(30),
+    current_status character varying(30) NOT NULL,
+    changed_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT chk_history_current_status CHECK (((current_status)::text = ANY ((ARRAY['created'::character varying, 'confirmed'::character varying, 'cancelled'::character varying, 'completed'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.appointment_status_history OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 41084)
+-- Name: appointment_status_history_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.appointment_status_history_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.appointment_status_history_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3799 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: appointment_status_history_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.appointment_status_history_id_seq OWNED BY public.appointment_status_history.id;
+
+
+--
+-- TOC entry 228 (class 1259 OID 41061)
+-- Name: appointments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.appointments (
+    id_appointment integer NOT NULL,
+    id_patient integer NOT NULL,
+    id_slot integer NOT NULL,
+    appointment_status character varying(30) DEFAULT 'created'::character varying NOT NULL,
+    comment text,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT chk_appointment_status CHECK (((appointment_status)::text = ANY ((ARRAY['created'::character varying, 'confirmed'::character varying, 'cancelled'::character varying, 'completed'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.appointments OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 41060)
+-- Name: appointments_id_appointment_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.appointments_id_appointment_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.appointments_id_appointment_seq OWNER TO postgres;
+
+--
+-- TOC entry 3800 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: appointments_id_appointment_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.appointments_id_appointment_seq OWNED BY public.appointments.id_appointment;
+
+
+--
+-- TOC entry 220 (class 1259 OID 41005)
+-- Name: doctors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.doctors (
+    id_doctor integer NOT NULL,
+    id_specialty integer NOT NULL,
+    doctor_full_name character varying(150) NOT NULL,
+    birth_date date,
+    experience_start_year integer,
+    portfolio_url text,
+    about text,
+    activity_status boolean DEFAULT true NOT NULL,
+    CONSTRAINT doctors_experience_start_year_check CHECK ((experience_start_year >= 1950))
+);
+
+
+ALTER TABLE public.doctors OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 41004)
+-- Name: doctors_id_doctor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.doctors_id_doctor_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.doctors_id_doctor_seq OWNER TO postgres;
+
+--
+-- TOC entry 3801 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: doctors_id_doctor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.doctors_id_doctor_seq OWNED BY public.doctors.id_doctor;
+
+
+--
+-- TOC entry 222 (class 1259 OID 41021)
+-- Name: patients; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.patients (
+    id_patient integer NOT NULL,
+    patient_full_name character varying(150) NOT NULL,
+    phone character varying(30) NOT NULL,
+    email character varying(150) NOT NULL,
+    comment text
+);
+
+
+ALTER TABLE public.patients OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 41020)
+-- Name: patients_id_patient_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.patients_id_patient_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.patients_id_patient_seq OWNER TO postgres;
+
+--
+-- TOC entry 3802 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: patients_id_patient_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.patients_id_patient_seq OWNED BY public.patients.id_patient;
+
+
+--
+-- TOC entry 226 (class 1259 OID 41046)
+-- Name: slots; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.slots (
+    id_slot integer NOT NULL,
+    id_doctor integer NOT NULL,
+    slot_start_date date NOT NULL,
+    slot_start_time time without time zone NOT NULL,
+    slot_end_date date NOT NULL,
+    slot_end_time time without time zone NOT NULL,
+    slot_availability boolean DEFAULT true NOT NULL
+);
+
+
+ALTER TABLE public.slots OWNER TO postgres;
+
+--
+-- TOC entry 225 (class 1259 OID 41045)
+-- Name: slots_id_slot_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.slots_id_slot_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.slots_id_slot_seq OWNER TO postgres;
+
+--
+-- TOC entry 3803 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: slots_id_slot_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.slots_id_slot_seq OWNED BY public.slots.id_slot;
+
+
+--
+-- TOC entry 218 (class 1259 OID 40994)
+-- Name: specialties; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.specialties (
+    id_specialty integer NOT NULL,
+    name character varying(100) NOT NULL,
+    specialty_code character varying(50) NOT NULL,
+    description text,
+    comment text
+);
+
+
+ALTER TABLE public.specialties OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 40993)
+-- Name: specialties_id_specialty_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.specialties_id_specialty_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.specialties_id_specialty_seq OWNER TO postgres;
+
+--
+-- TOC entry 3804 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: specialties_id_specialty_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.specialties_id_specialty_seq OWNED BY public.specialties.id_specialty;
+
+
+--
+-- TOC entry 224 (class 1259 OID 41034)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id_user integer NOT NULL,
+    user_full_name character varying(150) NOT NULL,
+    role character varying(30) NOT NULL,
+    email character varying(150) NOT NULL,
+    comment text,
+    CONSTRAINT chk_users_role CHECK (((role)::text = ANY ((ARRAY['администратор'::character varying, 'врач'::character varying, 'пациент'::character varying])::text[])))
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 41033)
+-- Name: users_id_user_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_user_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_user_seq OWNER TO postgres;
+
+--
+-- TOC entry 3805 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: users_id_user_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_user_seq OWNED BY public.users.id_user;
+
+
+--
+-- TOC entry 3597 (class 2604 OID 41088)
+-- Name: appointment_status_history id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment_status_history ALTER COLUMN id SET DEFAULT nextval('public.appointment_status_history_id_seq'::regclass);
+
+
+--
+-- TOC entry 3594 (class 2604 OID 41064)
+-- Name: appointments id_appointment; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointments ALTER COLUMN id_appointment SET DEFAULT nextval('public.appointments_id_appointment_seq'::regclass);
+
+
+--
+-- TOC entry 3588 (class 2604 OID 41008)
+-- Name: doctors id_doctor; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.doctors ALTER COLUMN id_doctor SET DEFAULT nextval('public.doctors_id_doctor_seq'::regclass);
+
+
+--
+-- TOC entry 3590 (class 2604 OID 41024)
+-- Name: patients id_patient; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patients ALTER COLUMN id_patient SET DEFAULT nextval('public.patients_id_patient_seq'::regclass);
+
+
+--
+-- TOC entry 3592 (class 2604 OID 41049)
+-- Name: slots id_slot; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.slots ALTER COLUMN id_slot SET DEFAULT nextval('public.slots_id_slot_seq'::regclass);
+
+
+--
+-- TOC entry 3587 (class 2604 OID 40997)
+-- Name: specialties id_specialty; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.specialties ALTER COLUMN id_specialty SET DEFAULT nextval('public.specialties_id_specialty_seq'::regclass);
+
+
+--
+-- TOC entry 3591 (class 2604 OID 41037)
+-- Name: users id_user; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id_user SET DEFAULT nextval('public.users_id_user_seq'::regclass);
+
+
+--
+-- TOC entry 3793 (class 0 OID 41085)
+-- Dependencies: 230
+-- Data for Name: appointment_status_history; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.appointment_status_history (id, id_appointment, id_user, old_status, current_status, changed_at) FROM stdin;
+1	1	1	created	confirmed	2026-05-26 15:53:55.956309
+2	2	1	\N	created	2026-05-26 15:53:55.956309
+3	3	1	created	confirmed	2026-05-26 15:53:55.956309
+\.
+
+
+--
+-- TOC entry 3791 (class 0 OID 41061)
+-- Dependencies: 228
+-- Data for Name: appointments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.appointments (id_appointment, id_patient, id_slot, appointment_status, comment, created_at) FROM stdin;
+1	1	1	confirmed	Барбос записан к Доктору Айболиту	2026-05-26 15:53:55.956309
+2	2	3	created	Цири записана к Геральту для консультации после тренировки	2026-05-26 15:53:55.956309
+3	3	5	confirmed	Фродо записан к Элронду для восстановления после путешествия	2026-05-26 15:53:55.956309
+\.
+
+
+--
+-- TOC entry 3783 (class 0 OID 41005)
+-- Dependencies: 220
+-- Data for Name: doctors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.doctors (id_doctor, id_specialty, doctor_full_name, birth_date, experience_start_year, portfolio_url, about, activity_status) FROM stdin;
+7	14	Доктор Айболит	1955-01-01	1980	https://medvisit.demo/doctors/aibolit	Добрый врач, который помогает и людям, и животным. Специализируется на срочных обращениях и заботливых консультациях	t
+8	16	Геральт из Ривии	1975-05-01	2000	https://medvisit.demo/doctors/geralt	Опытный специалист по токсинам, укусам чудовищ и последствиям контакта с неизвестными существами	t
+9	18	Элронд Полуэльф	1960-09-29	1985	https://medvisit.demo/doctors/elrond	Мудрый целитель из Ривенделла. Помогает с восстановлением после сложных состояний и долгих путешествий	t
+10	17	Гэндальф Серый	1950-01-01	1975	https://medvisit.demo/doctors/gandalf	Консультирует по стрессу, тревоге перед важными событиями и эмоциональному выгоранию после приключений	t
+11	15	Арагорн Элесар	1970-03-01	1995	https://medvisit.demo/doctors/aragorn	Знает основы полевой медицины, помогает при травмах, ранах и восстановлении после походов	t
+\.
+
+
+--
+-- TOC entry 3785 (class 0 OID 41021)
+-- Dependencies: 222
+-- Data for Name: patients; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.patients (id_patient, patient_full_name, phone, email, comment) FROM stdin;
+1	Барбос	+79990000001	barbos@example.com	Нужна консультация после прогулки и лёгкой простуды
+2	Цири из Цинтры	+79990000002	ciri@example.com	Нужна консультация после тренировки и перемещений между мирами
+3	Фродо Бэггинс	+79990000003	frodo@example.com	Жалобы на усталость после долгого путешествия
+4	Сэм Гэмджи	+79990000004	sam@example.com	Нужна консультация по восстановлению после похода
+5	Лютик	+79990000005	dandelion@example.com	Беспокоит голос после долгого выступления
+6	Бильбо Бэггинс	+79990000006	bilbo@example.com	Плановая онлайн-консультация
+\.
+
+
+--
+-- TOC entry 3789 (class 0 OID 41046)
+-- Dependencies: 226
+-- Data for Name: slots; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.slots (id_slot, id_doctor, slot_start_date, slot_start_time, slot_end_date, slot_end_time, slot_availability) FROM stdin;
+1	7	2026-05-25	09:00:00	2026-05-25	09:30:00	f
+2	7	2026-05-25	10:00:00	2026-05-25	10:30:00	t
+3	8	2026-05-25	11:00:00	2026-05-25	11:30:00	f
+4	8	2026-05-25	12:00:00	2026-05-25	12:30:00	t
+5	9	2026-05-26	13:00:00	2026-05-26	13:30:00	f
+6	9	2026-05-26	14:00:00	2026-05-26	14:30:00	t
+7	10	2026-05-26	15:00:00	2026-05-26	15:30:00	t
+8	11	2026-05-27	16:00:00	2026-05-27	16:30:00	t
+\.
+
+
+--
+-- TOC entry 3781 (class 0 OID 40994)
+-- Dependencies: 218
+-- Data for Name: specialties; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.specialties (id_specialty, name, specialty_code, description, comment) FROM stdin;
+13	Терапевт	THERAPIST	Первичный приём, общее состояние, температура, простуда и слабость	Основная специальность для онлайн-консультаций
+14	Ветеринарный врач	VET	Консультации по здоровью животных и необычных пациентов	Специальность добавлена для Доктора Айболита
+15	Травматолог	TRAUMA	Травмы, ушибы, укусы чудовищ, восстановление после сражений	Подходит для героев после приключений
+16	Токсиколог	TOXICOLOGIST	Отравления, укусы, действие зелий и неизвестных веществ	Специальность для мира Ведьмака
+17	Психотерапевт	PSYCHOTHERAPIST	Тревога, стресс, бессонница и эмоциональное выгорание	Подходит для долгих путешествий и сложных квестов
+18	Целитель	HEALER	Комплексная помощь, восстановление, наблюдение после тяжёлых состояний	Специальность для эльфийской медицины
+\.
+
+
+--
+-- TOC entry 3787 (class 0 OID 41034)
+-- Dependencies: 224
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id_user, user_full_name, role, email, comment) FROM stdin;
+1	Администратор MedVisit	администратор	admin@medvisit.demo	Администратор сервиса, помогает с записями
+2	Доктор Айболит	врач	aibolit@medvisit.demo	Врач сервиса MedVisit
+3	Геральт из Ривии	врач	geralt@medvisit.demo	Врач сервиса MedVisit
+4	Элронд Полуэльф	врач	elrond@medvisit.demo	Врач сервиса MedVisit
+5	Фродо Бэггинс	пациент	frodo.user@example.com	Пациент сервиса MedVisit
+6	Цири из Цинтры	пациент	ciri.user@example.com	Пациент сервиса MedVisit
+\.
+
+
+--
+-- TOC entry 3806 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: appointment_status_history_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.appointment_status_history_id_seq', 3, true);
+
+
+--
+-- TOC entry 3807 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: appointments_id_appointment_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.appointments_id_appointment_seq', 3, true);
+
+
+--
+-- TOC entry 3808 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: doctors_id_doctor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.doctors_id_doctor_seq', 11, true);
+
+
+--
+-- TOC entry 3809 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: patients_id_patient_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.patients_id_patient_seq', 7, true);
+
+
+--
+-- TOC entry 3810 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: slots_id_slot_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.slots_id_slot_seq', 8, true);
+
+
+--
+-- TOC entry 3811 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: specialties_id_specialty_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.specialties_id_specialty_seq', 18, true);
+
+
+--
+-- TOC entry 3812 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: users_id_user_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_user_seq', 6, true);
+
+
+--
+-- TOC entry 3628 (class 2606 OID 41092)
+-- Name: appointment_status_history appointment_status_history_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment_status_history
+    ADD CONSTRAINT appointment_status_history_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3624 (class 2606 OID 41073)
+-- Name: appointments appointments_id_slot_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_id_slot_key UNIQUE (id_slot);
+
+
+--
+-- TOC entry 3626 (class 2606 OID 41071)
+-- Name: appointments appointments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_pkey PRIMARY KEY (id_appointment);
+
+
+--
+-- TOC entry 3608 (class 2606 OID 41014)
+-- Name: doctors doctors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.doctors
+    ADD CONSTRAINT doctors_pkey PRIMARY KEY (id_doctor);
+
+
+--
+-- TOC entry 3610 (class 2606 OID 41032)
+-- Name: patients patients_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patients
+    ADD CONSTRAINT patients_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 3612 (class 2606 OID 41030)
+-- Name: patients patients_phone_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patients
+    ADD CONSTRAINT patients_phone_key UNIQUE (phone);
+
+
+--
+-- TOC entry 3614 (class 2606 OID 41028)
+-- Name: patients patients_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.patients
+    ADD CONSTRAINT patients_pkey PRIMARY KEY (id_patient);
+
+
+--
+-- TOC entry 3620 (class 2606 OID 41052)
+-- Name: slots slots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.slots
+    ADD CONSTRAINT slots_pkey PRIMARY KEY (id_slot);
+
+
+--
+-- TOC entry 3604 (class 2606 OID 41001)
+-- Name: specialties specialties_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.specialties
+    ADD CONSTRAINT specialties_pkey PRIMARY KEY (id_specialty);
+
+
+--
+-- TOC entry 3606 (class 2606 OID 41003)
+-- Name: specialties specialties_specialty_code_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.specialties
+    ADD CONSTRAINT specialties_specialty_code_key UNIQUE (specialty_code);
+
+
+--
+-- TOC entry 3622 (class 2606 OID 41054)
+-- Name: slots uq_doctor_slot; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.slots
+    ADD CONSTRAINT uq_doctor_slot UNIQUE (id_doctor, slot_start_date, slot_start_time);
+
+
+--
+-- TOC entry 3616 (class 2606 OID 41044)
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 3618 (class 2606 OID 41042)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id_user);
+
+
+--
+-- TOC entry 3631 (class 2606 OID 41074)
+-- Name: appointments fk_appointments_patients; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT fk_appointments_patients FOREIGN KEY (id_patient) REFERENCES public.patients(id_patient) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 3632 (class 2606 OID 41079)
+-- Name: appointments fk_appointments_slots; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT fk_appointments_slots FOREIGN KEY (id_slot) REFERENCES public.slots(id_slot) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 3629 (class 2606 OID 41015)
+-- Name: doctors fk_doctors_specialties; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.doctors
+    ADD CONSTRAINT fk_doctors_specialties FOREIGN KEY (id_specialty) REFERENCES public.specialties(id_specialty) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 3633 (class 2606 OID 41093)
+-- Name: appointment_status_history fk_history_appointments; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment_status_history
+    ADD CONSTRAINT fk_history_appointments FOREIGN KEY (id_appointment) REFERENCES public.appointments(id_appointment) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3634 (class 2606 OID 41098)
+-- Name: appointment_status_history fk_history_users; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointment_status_history
+    ADD CONSTRAINT fk_history_users FOREIGN KEY (id_user) REFERENCES public.users(id_user) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 3630 (class 2606 OID 41055)
+-- Name: slots fk_slots_doctors; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.slots
+    ADD CONSTRAINT fk_slots_doctors FOREIGN KEY (id_doctor) REFERENCES public.doctors(id_doctor) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+-- Completed on 2026-05-26 19:38:04 MSK
+
+--
+-- PostgreSQL database dump complete
+--
+
